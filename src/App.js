@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Login from './components/Login';
+import Register from './components/Register';
+import ProductsList from './components/ProductsList';
 
 function App() {
+  const [activeSection, setActiveSection] = useState("register")
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem("loggedIn") === "true") {
+      setIsLoggedIn(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setActiveSection("product-list")
+    }
+  }, [isLoggedIn])
+
+  const logout = () => {
+    localStorage.removeItem("loggedIn")
+    setIsLoggedIn(false)
+    setActiveSection("login")
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      {activeSection === "register" ? <div>Already Registered ?
+        <span onClick={() => { setActiveSection("login") }} className='link'>Login</span>
+      </div> : null}
+      {activeSection === "login" ? <div>Havent Register yet ?
+        <span onClick={() => { setActiveSection("register") }} className='link'>Register</span>
+      </div> : null}
+      {isLoggedIn ? <div className='link' onClick={logout}>Logout</div> : null}
+
+
+      {activeSection === "register" ? <Register /> : null}
+      {activeSection === "login" ? <Login setIsLoggedIn={setIsLoggedIn} /> : null}
+      {activeSection === "product-list" ? <ProductsList /> : null}
     </div>
   );
 }
