@@ -9,7 +9,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem("loggedIn") === "true") {
+    if (localStorage.getItem("auth_token")) {
       setIsLoggedIn(true)
     }
   }, [])
@@ -21,7 +21,7 @@ function App() {
   }, [isLoggedIn])
 
   const logout = () => {
-    localStorage.removeItem("loggedIn")
+    localStorage.removeItem("auth_token")
     setIsLoggedIn(false)
     setActiveSection("login")
   }

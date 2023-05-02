@@ -21,7 +21,7 @@ const Login = (props) => {
             setMessage({ type: "success", text: "Login Successfull !" })
             //set isLoggedIn from parent to true
             props.setIsLoggedIn(true)
-            localStorage.setItem("loggedIn", "true")
+            localStorage.setItem("auth_token", response.data.token)
         } catch (error) {
             console.log(error.response.data);
             setMessage({ type: "error", text: error.response.data })

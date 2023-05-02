@@ -20,11 +20,22 @@ const Register = () => {
             e.target.reset()
             setFormData({})
             setMessage({ type: "success", text: "Registration Successfull !" })
+            createCart(response.data._id)
         } catch (error) {
             console.log(error.response.data);
             setMessage({ type: "error", text: error.response.data })
         }
         //call register api and send name email and password in it
+    }
+
+    const createCart = async (userId) => {
+        try {
+            const payload = { user: userId }
+            const response = await axios.post(`http://localhost:8009/cart/`, payload)
+            console.log(response.data)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return <div className="login-box">
