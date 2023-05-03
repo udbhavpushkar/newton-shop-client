@@ -31,6 +31,11 @@
   cursor: pointer !important;
 }
 
+.disable-click{
+  pointer-events: none;
+  cursor:not-allowed;
+}
+
 .success{
   color: green;
   font-weight: 600;

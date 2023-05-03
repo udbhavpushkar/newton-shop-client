@@ -41,6 +41,7 @@ const ProductsList = () => {
             let payload = { productId: id }
             const response = await axios.post(`http://localhost:8009/cart/addItem/${cartDetails._id}`, payload)
             console.log(response.data);
+            fetchCartDetails()
         } catch (error) {
             console.log(error);
         }
@@ -48,14 +49,19 @@ const ProductsList = () => {
 
     return <div className="product-outer-box">
         <button onClick={() => { setShowCart(!showCart) }}>{showCart ? "Hide Cart" : "Show Cart"}</button>
-        {showCart ? <Cart products={cartDetails.items} /> : null}
+        {showCart ? <Cart fetchCartDetails={fetchCartDetails} cartId={cartDetails._id} products={cartDetails.items} /> : null}
         <h1 style={{ marginTop: "0px" }}>Products List</h1>
         <div className="products-container">
             {products.map((data) => {
+                let hide = false
+                let index = cartDetails?.items?.findIndex(item => item.productId._id == data._id)
+                if (index !== -1) {
+                    hide = true
+                }
                 return <div className="product-box">
                     <h4>Name : {data.name}</h4>
                     <h5>Price : {data.price}</h5>
-                    <button className="btn-block" onClick={() => { addItemInCart(data._id) }}>Add To Cart</button>
+                    <button className={`btn-block ${hide ? "disable-click" : ""}`} onClick={() => { addItemInCart(data._id) }}>{hide ? "Added" : "Add To Cart"}</button>
                 </div>
             })}
         </div>
